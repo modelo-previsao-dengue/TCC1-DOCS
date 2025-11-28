@@ -1,0 +1,19 @@
+\subsection{Análise Comparativa dos Modelos}
+
+Baseado em características gerais e estudos comparativos típicos de modelos de previsão de séries temporais \cite{aiyegbeni2024comparative}.
+
+\begin{table}[!ht]
+    \centering
+    \small
+    \caption{Comparativo Detalhado das Tecnologias: SARIMA, Random Forest, XGBoost e LSTM}
+    \label{tab:comparativo_detalhado_tecnologias}
+    \setlength{\tabcolsep}{3pt} % Reduz espaçamento entre colunas
+    \begin{tabular}{|p{0.12\textwidth}|p{0.26\textwidth}|p{0.29\textwidth}|p{0.29\textwidth}|}
+    \hline
+    \textbf{Modelo} & \textbf{Descrição} & \textbf{Vantagem} & \textbf{Desvantagem} \\ \hline
+    \textbf{SARIMA / SARIMAX} & Especificação $(p,d,q)\times(P,D,Q)_s$ com componentes sazonais e, no SARIMAX, termos exógenos $X_t$. & \begin{itemize}[leftmargin=*,noitemsep,topsep=0pt] \item Captura autocorrelação e sazonalidade explícitas. \item Permite variáveis exógenas (clima). \item Alta interpretabilidade. \end{itemize} & \begin{itemize}[leftmargin=*,noitemsep,topsep=0pt] \item Relações lineares; pode subestimar não-linearidades. \item Sensível a estacionariedade; tuning custoso. \end{itemize} \\ \hline
+    \textbf{Random Forest} & Múltiplas árvores de decisão (bagging); predição é a média das árvores. & \begin{itemize}[leftmargin=*,noitemsep,topsep=0pt] \item Captura não-linearidades e interações. \item Robusto a outliers/ruído; pouco tuning. \item Feature importance auxilia interpretação. \end{itemize} & \begin{itemize}[leftmargin=*,noitemsep,topsep=0pt] \item Pode falhar em extrapolação. \item Menor capacidade para dependências temporais longas sem lags. \end{itemize} \\ \hline
+    \textbf{XGBoost} & Boosting de árvores (sequencial) otimizando função de perda com regularização. & \begin{itemize}[leftmargin=*,noitemsep,topsep=0pt] \item Alto desempenho; captura não-linearidades. \item Regularização (L1/L2) e lida bem com missing. \item Treino rápido. \end{itemize} & \begin{itemize}[leftmargin=*,noitemsep,topsep=0pt] \item Tuning mais sensível que RF. \item Exige engenharia de features (lags). \end{itemize} \\ \hline
+    \textbf{LSTM} & Redes Neurais Recorrentes com gates para memória de longo prazo. & \begin{itemize}[leftmargin=*,noitemsep,topsep=0pt] \item Modela dependências longas e complexas. \item Aprende padrões temporais automaticamente. \end{itemize} & \begin{itemize}[leftmargin=*,noitemsep,topsep=0pt] \item Exige muitos dados e poder computacional. \item Caixa-preta; risco de overfitting. \end{itemize} \\ \hline
+    \end{tabular}
+\end{table}
