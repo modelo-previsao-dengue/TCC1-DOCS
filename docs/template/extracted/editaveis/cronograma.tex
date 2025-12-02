@@ -1,107 +1,36 @@
-\chapter{Cronograma de Execução}
+\chapter{Cronograma}
 \label{cap:cronograma}
 
-Este capítulo apresenta o planejamento temporal detalhado das atividades do TCC 1 e do TCC 2, organizadas por etapas e com estimativa de duração em semanas.
+Este capítulo apresenta o planejamento temporal das atividades desenvolvidas no TCC 1 e planejadas para o TCC 2, organizadas em fases sequenciais ao longo dos semestres letivos.
 
-\section{Atividades do TCC 1}
+\section{Cronograma do TCC 1}
 
-O TCC 1 foi dedicado à construção da base de dados e à análise exploratória preliminar. As atividades já executadas e suas durações estimadas foram:
+O TCC 1, desenvolvido no período de setembro a dezembro de 2025, concentrou-se na fundamentação teórica, coleta e análise exploratória dos dados. A Figura~\ref{fig:cronograma_tcc1} apresenta a distribuição temporal das atividades executadas, organizadas em cinco fases principais: (1) Planejamento da Pesquisa, (2) Coleta de Dados, (3) Análise dos Dados, (4) Metodologia e (5) Relatório.
 
-\begin{enumerate}
-    \item \textbf{Revisão Bibliográfica e Fundamentação Teórica} (4 semanas)
-    \begin{itemize}
-        \item Pesquisa sobre epidemiologia da dengue e dinâmica de transmissão.
-        \item Revisão do estado da arte em modelos preditivos para saúde pública.
-        \item Estudo das tecnologias de Machine Learning e Deep Learning aplicadas a séries temporais epidemiológicas.
-    \end{itemize}
-    
-    \item \textbf{Identificação e Caracterização das Bases de Dados} (2 semanas)
-    \begin{itemize}
-        \item Mapeamento das fontes de dados oficiais (SINAN e INMET).
-        \item Análise da estrutura, formato e qualidade dos dados brutos.
-        \item Definição da estratégia de coleta e padronização.
-    \end{itemize}
-    
-    \item \textbf{Desenvolvimento do Pipeline de Engenharia de Dados} (3 semanas)
-    \begin{itemize}
-        \item Programação de scripts para download automatizado (API InfoDengue e arquivos INMET).
-        \item Implementação de rotinas de limpeza e tratamento de dados.
-        \item Criação do módulo de agregação temporal (diário para semanal).
-        \item Desenvolvimento do algoritmo de unificação (merge) das bases.
-    \end{itemize}
-    
-    \item \textbf{Análise Estatística Exploratória} (3 semanas)
-    \begin{itemize}
-        \item Geração de estatísticas descritivas e visualizações exploratórias.
-        \item Cálculo de correlações de Pearson e Spearman.
-        \item Implementação da análise de correlação cruzada (lags de 0 a 8 semanas).
-        \item Execução dos testes de causalidade de Granger.
-    \end{itemize}
-    
-    \item \textbf{Redação e Documentação} (2 semanas)
-    \begin{itemize}
-        \item Redação dos capítulos de Introdução, Revisão Bibliográfica e Metodologia.
-        \item Incorporação dos resultados preliminares e figuras geradas.
-        \item Revisão textual e formatação conforme normas ABNT.
-    \end{itemize}
-\end{enumerate}
+\begin{figure}[htb]
+	\centering
+	\caption{Cronograma executado no TCC 1 (setembro a dezembro de 2025)}
+	\includegraphics[width=\textwidth]{../Cronogramas/Cronograma_TCC1_2025-1.png}
+	\label{fig:cronograma_tcc1}
+	\fonte{Elaborado pelo autor.}
+\end{figure}
 
-\textbf{Total estimado do TCC 1: 14 semanas}
+As atividades realizadas incluíram a revisão bibliográfica sobre epidemiologia da dengue e modelos preditivos, a identificação e caracterização das bases de dados (SINAN e INMET), o desenvolvimento do pipeline de engenharia de dados com scripts de coleta automatizada, a análise estatística exploratória com cálculo de correlações e testes de causalidade de Granger, e a redação dos capítulos iniciais do trabalho.
 
-\section{Planejamento para o TCC 2}
+\section{Cronograma do TCC 2}
 
-O TCC 2 focará na construção, treinamento e avaliação dos modelos preditivos. O cronograma previsto é:
+O TCC 2, planejado para o período de janeiro a março de 2026, focará no desenvolvimento, treinamento e validação dos modelos preditivos, além da implementação de um sistema de alerta automatizado. A Figura~\ref{fig:cronograma_tcc2} apresenta a distribuição temporal das atividades previstas, organizadas em seis fases: (1) Feature Engineering, (2) Modelos Baseline (SARIMA/Prophet), (3) Machine Learning (Random Forest/XGBoost), (4) Deep Learning (LSTM/BiLSTM), (5) Validação e Comparação, e (6) Redação Final.
 
-\begin{enumerate}
-    \item \textbf{Feature Engineering e Preparação dos Dados para Modelagem} (2 semanas)
-    \begin{itemize}
-        \item Criação explícita das variáveis de lag (chuva_lag_1, chuva_lag_2, etc.).
-        \item Normalização e padronização das variáveis numéricas.
-        \item Divisão dos dados em conjuntos de treino, validação e teste (respeitando ordem temporal).
-    \end{itemize}
-    
-    \item \textbf{Implementação do Modelo Baseline (SARIMA)} (2 semanas)
-    \begin{itemize}
-        \item Seleção automática de hiperparâmetros (p, d, q)(P, D, Q).
-        \item Treinamento do modelo e geração de previsões.
-        \item Avaliação inicial do desempenho.
-    \end{itemize}
-    
-    \item \textbf{Implementação e Otimização do XGBoost} (3 semanas)
-    \begin{itemize}
-        \item Configuração da estrutura de dados para o algoritmo.
-        \item Otimização de hiperparâmetros via Grid Search ou Randomized Search.
-        \item Treinamento e validação com Time Series Cross-Validation.
-        \item Análise da importância das features (Feature Importance).
-    \end{itemize}
-    
-    \item \textbf{Implementação e Otimização da Rede Neural LSTM} (4 semanas)
-    \begin{itemize}
-        \item Projeto da arquitetura (número de camadas, unidades de memória, dropout).
-        \item Preparação dos dados em formato de sequências temporais.
-        \item Treinamento com early stopping e monitoramento de overfitting.
-        \item Ajuste fino de hiperparâmetros (learning rate, batch size, epochs).
-    \end{itemize}
-    
-    \item \textbf{Comparação de Modelos e Análise de Resultados} (2 semanas)
-    \begin{itemize}
-        \item Cálculo das métricas de desempenho (RMSE, MAE) para todos os modelos.
-        \item Análise dos erros de previsão (resíduos).
-        \item Avaliação da capacidade de generalização (especialmente para o evento extremo de 2024).
-        \item Comparação crítica dos resultados e discussão dos trade-offs.
-    \end{itemize}
-    
-    \item \textbf{Redação Final e Apresentação} (3 semanas)
-    \begin{itemize}
-        \item Redação do capítulo de Resultados Finais e Discussão.
-        \item Elaboração das Conclusões e Trabalhos Futuros.
-        \item Preparação da apresentação para a banca examinadora.
-        \item Revisão final e formatação do documento completo.
-    \end{itemize}
-\end{enumerate}
+\begin{figure}[htb]
+	\centering
+	\caption{Cronograma planejado para o TCC 2 (janeiro a março de 2026)}
+	\includegraphics[width=\textwidth]{../Cronogramas/Cronograma_TCC2_2026-1.png}
+	\label{fig:cronograma_tcc2}
+	\fonte{Elaborado pelo autor.}
+\end{figure}
 
-\textbf{Total estimado do TCC 2: 16 semanas}
+As atividades planejadas incluem a engenharia de atributos com criação de lags temporais e variáveis derivadas, a implementação de modelos estatísticos (SARIMA/SARIMAX e Prophet) como baseline, o desenvolvimento de modelos de machine learning (Random Forest e XGBoost) com otimização de hiperparâmetros, a implementação de arquiteturas de deep learning (LSTM, BiLSTM e CNN-LSTM), a validação rigorosa com walk-forward validation e comparação estatística entre modelos, e a redação final do trabalho com preparação da defesa.
 
-\section{Visão Geral do Projeto}
+\section{Considerações sobre o Planejamento}
 
-O projeto completo (TCC 1 + TCC 2) está previsto para ser concluído em aproximadamente \textbf{30 semanas} (cerca de 7 a 8 meses), considerando dedicação parcial compatível com a carga horária acadêmica de um estudante de graduação.
+O projeto está estruturado em aproximadamente 30 semanas de trabalho, distribuídas entre dois semestres letivos. O TCC 1 (14 semanas) estabeleceu a base conceitual e metodológica do trabalho, enquanto o TCC 2 (16 semanas) dedicar-se-á à implementação prática e avaliação dos modelos. As Figuras~\ref{fig:cronograma_tcc1} e~\ref{fig:cronograma_tcc2} evidenciam a progressão lógica das atividades, respeitando as dependências metodológicas entre as etapas e considerando a carga horária acadêmica do estudante.
