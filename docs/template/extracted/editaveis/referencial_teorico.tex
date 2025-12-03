@@ -18,79 +18,76 @@ A precipitação cria ambientes propícios para a reprodução do mosquito ao ge
 
 Um aspecto crucial na modelagem da relação clima-dengue é a existência de defasagens temporais (lags) entre as variações climáticas e seus efeitos na incidência da doença. Os efeitos das variáveis climáticas sobre a incidência de dengue não são imediatos, refletindo uma cadeia de eventos biológicos e epidemiológicos que incluem o tempo de desenvolvimento do mosquito (7-10 dias), o período de incubação extrínseco do vírus no vetor (8-12 dias), o período de incubação intrínseco no humano (4-7 dias), e o tempo decorrido até a notificação no sistema de vigilância epidemiológica (variável conforme a região e estrutura do sistema de saúde). Estudos identificam lags ótimos variando entre 2 e 12 semanas, dependendo da região geográfica e da variável climática considerada \cite{analysis_climate_factors_dengue,health_impact_dengue_precipitation_sp}, sendo esta identificação de defasagens temporais ótimas um dos objetivos específicos deste trabalho, visando maximizar a capacidade preditiva dos modelos desenvolvidos.
 
+A Figura \ref{fig:dengue_clima_goiania} exemplifica essa complexa interação entre variáveis climáticas e incidência de dengue, apresentando dados da cidade de Goiânia que ilustram como picos de casos frequentemente coincidem com padrões sazonais específicos de temperatura e precipitação \cite{basedosdados2024dengue}, evidenciando a importância de considerar múltiplas variáveis climáticas simultaneamente em modelos preditivos.
+
+\begin{figure}[htb]
+    \caption{Relação entre variáveis climáticas e casos de dengue em Goiânia.}
+    \centering
+    \includegraphics[width=0.85\textwidth]{figuras/Dengue e Clima Goiania.png}
+    \fonte{\cite{basedosdados2024dengue}}
+    \label{fig:dengue_clima_goiania}
+\end{figure}
+
 \section{Abordagens de Modelagem para Previsão de Dengue}
 
 A modelagem preditiva aplicada a doenças infecciosas tem evoluído significativamente nas últimas décadas, incorporando técnicas cada vez mais sofisticadas de análise de séries temporais, aprendizado de máquina e deep learning. No contexto da dengue, diferentes abordagens têm sido propostas e avaliadas, cada uma com suas vantagens e limitações específicas. Os modelos estatísticos clássicos, como ARIMA (\textit{Autoregressive Integrated Moving Average}) e sua extensão sazonal SARIMA (\textit{Seasonal ARIMA}), são amplamente utilizados para previsão de séries temporais epidemiológicas por sua capacidade de capturar autocorrelação temporal, tendências e padrões sazonais nos dados. Um modelo SARIMA é especificado por sete parâmetros $(p, d, q) \times (P, D, Q)_s$, onde $p$ representa a ordem autoregressiva, $d$ o grau de diferenciação, $q$ a ordem de média móvel, $P$, $D$, $Q$ os componentes sazonais correspondentes, e $s$ o período sazonal (por exemplo, 52 para dados semanais). O modelo SARIMAX estende o SARIMA ao incorporar variáveis exógenas, como dados climáticos, permitindo quantificar explicitamente o efeito de covariáveis externas na série temporal de casos de dengue. Adicionalmente, o Prophet, desenvolvido pelo Facebook (Meta), representa uma abordagem moderna de modelagem aditiva que decompõe a série em tendência, sazonalidade e efeitos de feriados, sendo particularmente robusto a dados faltantes e outliers, características comuns em dados epidemiológicos.
+
+A Figura \ref{fig:schematic_sarima} apresenta a estrutura esquemática do modelo SARIMA, ilustrando seus componentes autoregressivos (AR), de diferenciação (I) e de média móvel (MA), tanto para a parte não-sazonal quanto para a parte sazonal, evidenciando como o modelo captura padrões temporais complexos através da combinação desses elementos.
+
+\begin{figure}[htb]
+    \caption{Estrutura esquemática do modelo SARIMA.}
+    \centering
+    \includegraphics[width=0.8\textwidth]{figuras/Schematic-SARIMA.png}
+    \fonte{\cite{gong2023sarima}}
+    \label{fig:schematic_sarima}
+\end{figure}
 
 \subsection{Modelos de Aprendizado de Máquina}
 
 Os métodos de aprendizado de máquina têm demonstrado capacidade superior em capturar relações complexas e não-lineares presentes em dados epidemiológicos e climáticos \cite{roster2022machine,mussumeci2020large}. Random Forest, um método de ensemble que constrói múltiplas árvores de decisão e agrega suas predições, tem se destacado em aplicações de previsão de dengue devido à sua capacidade de capturar relações não-lineares, robustez a outliers, fornecimento de medidas de importância de features e necessidade reduzida de tuning de hiperparâmetros \cite{roster2022machine}. Este método tem demonstrado desempenho particularmente bom em séries temporais de dengue, com estudos reportando erros médios absolutos consistentemente baixos em múltiplas cidades brasileiras \cite{roster2022machine,mussumeci2020large}. Roster et al. (2022) aplicaram Random Forest para previsão de dengue em múltiplas cidades brasileiras, demonstrando que o modelo captura efetivamente padrões sazonais e a influência de variáveis meteorológicas, com performance superior a modelos estatísticos tradicionais \cite{roster2022machine}.
 
+A Figura \ref{fig:schematic_random_forest} ilustra o funcionamento do algoritmo Random Forest, mostrando como múltiplas árvores de decisão são construídas a partir de amostras bootstrap dos dados originais e subconjuntos aleatórios de features, com a predição final obtida pela agregação (média ou votação) das predições individuais de cada árvore, reduzindo a variância e melhorando a generalização.
+
+\begin{figure}[htb]
+    \caption{Estrutura esquemática do modelo Random Forest.}
+    \centering
+    \includegraphics[width=0.75\textwidth]{figuras/schematic random forest.png}
+    \fonte{\cite{researchgate_randomforest}}
+    \label{fig:schematic_random_forest}
+\end{figure}
+
 O \textit{eXtreme Gradient Boosting} (XGBoost) representa outra abordagem de ensemble amplamente utilizada, caracterizada por construir árvores de forma sequencial onde cada nova árvore corrige os erros das anteriores \cite{mussumeci2020large}. Esta técnica oferece alta performance preditiva, regularização integrada (L1 e L2), tratamento eficiente de dados faltantes e capacidades de paralelização para treinamento rápido. Estudos recentes mostram que XGBoost apresenta performance comparável ou superior a Random Forest em tarefas de previsão de dengue, especialmente quando variáveis climáticas são incorporadas ao modelo \cite{roster2022machine,ferdousi2021windowed}. Mussumeci e Coelho (2020) desenvolveram framework de machine learning em larga escala para previsão de dengue no Brasil, demonstrando que XGBoost e outros algoritmos de gradient boosting alcançam alta acurácia quando treinados com dados epidemiológicos e climáticos de múltiplas fontes \cite{mussumeci2020large}. Outras variantes de gradient boosting, como GradientBoostingRegressor (scikit-learn) e LightGBM, oferecem alternativas com diferentes compromissos entre velocidade de treinamento e acurácia, ampliando o repertório de ferramentas disponíveis para modelagem epidemiológica \cite{roster2022machine}.
 
+A Figura \ref{fig:schematic_xgboost} apresenta a estrutura do algoritmo XGBoost, demonstrando o processo de construção sequencial de árvores onde cada nova árvore é treinada para corrigir os resíduos do modelo anterior, com a aplicação de regularização (L1 e L2) para controlar a complexidade e prevenir overfitting, resultando em um modelo robusto e de alta performance.
 
-\subsection{Vantagens e Limitações por Tecnologia}
+\begin{figure}[htb]
+    \caption{Estrutura esquemática do modelo XGBoost.}
+    \centering
+    \includegraphics[width=0.8\textwidth]{figuras/Schematic-XGBoost.png}
+    \fonte{\cite{researchgate_xgboost}}
+    \label{fig:schematic_xgboost}
+\end{figure}
 
-\subsubsection{SARIMA/SARIMAX}
-\textbf{Vantagens:}
-\begin{itemize}
-  \item Captura autocorrelação e sazonalidade explícitas em séries temporais epidemiológicas.
-  \item No SARIMAX, permite incorporar variáveis exógenas (clima) de forma transparente.
-  \item Interpretabilidade elevada dos parâmetros.
-\end{itemize}
-\textbf{Limitações:}
-\begin{itemize}
-  \item Relações essencialmente lineares; pode subestimar não-linearidades clima–dengue.
-  \item Sensível a estacionariedade e especificação de ordem; tuning pode ser custoso.
-\end{itemize}
+\newpage
+\subsection{Análise Comparativa dos Modelos}
 
-\subsubsection{Random Forest}
-\textbf{Vantagens:}
-\begin{itemize}
-  \item Captura relações não-lineares e interações entre variáveis.
-  \item Robusto a outliers e ruído; pouca necessidade de tuning fino.
-  \item Importância de variáveis auxilia a interpretação (quais lags/variáveis climáticas mais relevantes).
-\end{itemize}
-\textbf{Limitações:}
-\begin{itemize}
-  \item Pode perder desempenho em extrapolação fora do domínio observado.
-  \item Menor capacidade de modelar dependências temporais de longo prazo sem engenharia de \textit{features}.
-\end{itemize}
+Baseado em características gerais e estudos comparativos típicos de modelos de previsão de séries temporais \cite{aiyegbeni2024comparative}
 
-\subsubsection{XGBoost/Gradient Boosting}
-\textbf{Vantagens:}
-\begin{itemize}
-  \item Alto desempenho preditivo; boa capacidade de capturar não-linearidades.
-  \item Regularização (L1/L2) e manejo eficiente de \textit{missing}.
-  \item Treinamento rápido e suporte a \textit{early stopping}.
-\end{itemize}
-\textbf{Limitações:}
-\begin{itemize}
-  \item Tuning de hiperparâmetros mais sensível do que Random Forest.
-  \item Demanda engenharia de \textit{features} temporais (lags, médias móveis).
-\end{itemize}
-
-\subsubsection{LSTM (Deep Learning)}
-\textbf{Vantagens:}
-\begin{itemize}
-  \item Modela dependências de longo prazo em séries temporais.
-  \item Capta relações não-lineares complexas; pode aprender lags automaticamente.
-\end{itemize}
-\textbf{Limitações:}
-\begin{itemize}
-  \item Requer mais dados e poder computacional.
-  \item Menor interpretabilidade; risco de \textit{overfitting} sem validação temporal rigorosa.
-\end{itemize}
-
-\subsection{Estrutura das Tecnologias Pesquisadas}
-
-\subsubsection{SARIMA/SARIMAX} Especificação $(p,d,q)\times(P,D,Q)_s$ com componentes sazonais e, no SARIMAX, termos exógenos $X_t$ adicionados à equação de média.
-
-\subsubsection{Random Forest} Conjunto de múltiplas árvores de decisão treinadas em \textit{bootstraps} e subconjuntos aleatórios de \textit{features}; a predição é a média (regressão) das árvores.
-
-\subsubsection{Gradient Boosting/XGBoost} Sequência de árvores adicionadas para corrigir resíduos do modelo anterior, otimizando uma função de perda com regularização.
-
-\subsubsection{LSTM} Células recorrentes com \textit{gates} (input/forget/output) que controlam fluxo de informação e preservam memória de longo prazo.
+\begin{table}[!ht]
+    \centering
+    \small
+    \caption{Comparativo Detalhado das Tecnologias: SARIMA, Random Forest, XGBoost e LSTM}
+    \label{tab:comparativo_detalhado_tecnologias}
+    \setlength{\tabcolsep}{3pt} % Reduz espaçamento entre colunas
+    \begin{tabular}{|p{0.12\textwidth}|p{0.26\textwidth}|p{0.29\textwidth}|p{0.29\textwidth}|}
+    \hline
+    \textbf{Modelo} & \textbf{Descrição} & \textbf{Vantagem} & \textbf{Desvantagem} \\ \hline
+    \textbf{SARIMA / SARIMAX} & Especificação $(p,d,q)\times(P,D,Q)_s$ com componentes sazonais e, no SARIMAX, termos exógenos $X_t$. & \begin{itemize}[leftmargin=*,noitemsep,topsep=0pt] \item Captura autocorrelação e sazonalidade explícitas. \item Permite variáveis exógenas (clima). \item Alta interpretabilidade. \end{itemize} & \begin{itemize}[leftmargin=*,noitemsep,topsep=0pt] \item Relações lineares; pode subestimar não-linearidades. \item Sensível a estacionariedade; tuning custoso. \end{itemize} \\ \hline
+    \textbf{Random Forest} & Múltiplas árvores de decisão (bagging); predição é a média das árvores. & \begin{itemize}[leftmargin=*,noitemsep,topsep=0pt] \item Captura não-linearidades e interações. \item Robusto a outliers/ruído; pouco tuning. \item Feature importance auxilia interpretação. \end{itemize} & \begin{itemize}[leftmargin=*,noitemsep,topsep=0pt] \item Pode falhar em extrapolação. \item Menor capacidade para dependências temporais longas sem lags. \end{itemize} \\ \hline
+    \textbf{XGBoost} & Boosting de árvores (sequencial) otimizando função de perda com regularização. & \begin{itemize}[leftmargin=*,noitemsep,topsep=0pt] \item Alto desempenho; captura não-linearidades. \item Regularização (L1/L2) e lida bem com missing. \item Treino rápido. \end{itemize} & \begin{itemize}[leftmargin=*,noitemsep,topsep=0pt] \item Tuning mais sensível que RF. \item Exige engenharia de features (lags). \end{itemize} \\ \hline
+    \textbf{LSTM} & Redes Neurais Recorrentes com gates para memória de longo prazo. & \begin{itemize}[leftmargin=*,noitemsep,topsep=0pt] \item Modela dependências longas e complexas. \item Aprende padrões temporais automaticamente. \end{itemize} & \begin{itemize}[leftmargin=*,noitemsep,topsep=0pt] \item Exige muitos dados e poder computacional. \item Caixa-preta; risco de overfitting. \end{itemize} \\ \hline
+    \end{tabular}
+\end{table}
 
 \section{Estudos Sobre Clima e Dengue no Brasil}
 
