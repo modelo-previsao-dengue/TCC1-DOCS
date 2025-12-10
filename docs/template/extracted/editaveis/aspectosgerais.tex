@@ -1,68 +1,120 @@
-\chapter{Revisão Bibliográfica e Fundamentação Teórica}
-\label{cap:revisao}
+\chapter{Referencial Teórico}
 
-Este capítulo apresenta a fundamentação teórica necessária para a compreensão do problema abordado, discutindo a epidemiologia da dengue, o impacto socioeconômico da doença e o estado da arte das tecnologias de previsão baseadas em Inteligência Artificial. Além disso, detalha-se a estrutura das bases de dados reais utilizadas neste estudo.
+Este capítulo apresenta a fundamentação teórica necessária para compreender o desenvolvimento deste trabalho. São discutidos aspectos epidemiológicos da dengue no Brasil e sua relação com fatores climáticos, seguido de uma revisão dos principais modelos preditivos e técnicas computacionais aplicáveis ao problema. A estrutura foi organizada de forma a fornecer uma base conceitual sólida que justifique as escolhas metodológicas adotadas neste estudo.
 
-\section{A Dengue: Epidemiologia e Dinâmica de Transmissão}
+\section{Dengue: Epidemiologia e Fatores Climáticos}
 
-A dengue é, atualmente, a arbovirose mais importante do mundo em termos de morbidade e mortalidade humana. O vírus (DENV) possui quatro sorotipos distintos (DENV-1, DENV-2, DENV-3 e DENV-4). A co-circulação desses sorotipos em uma mesma região é um fator de risco crítico, pois a infecção prévia por um sorotipo pode, em alguns casos, exacerbar a resposta imune em uma infecção secundária por um sorotipo diferente, levando a quadros de Dengue Grave (anteriormente denominada Dengue Hemorrágica).
+A dengue é uma doença viral transmitida principalmente pelo mosquito \textit{Aedes aegypti}, representando um grave problema de saúde pública no Brasil e em outros países tropicais. Segundo dados do Sistema de Informação de Agravos de Notificação (SINAN), o Brasil registrou mais de 6 milhões de casos prováveis de dengue em 2024, evidenciando a magnitude do problema e a necessidade de sistemas de vigilância e previsão mais eficientes. O mosquito \textit{Aedes aegypti} prospera em ambientes urbanos, onde encontra condições ideais para reprodução em recipientes com água parada, estabelecendo um ciclo de transmissão diretamente influenciado por variáveis ambientais e climáticas.
 
-A dinâmica de transmissão da doença é complexa e fortemente influenciada por fatores ambientais e sociais. O vetor \textit{Aedes aegypti} é um mosquito altamente adaptado ao ambiente urbano e peridomiciliar. Seu ciclo de vida compreende quatro fases: ovo, larva, pupa e adulto. As fases imaturas ocorrem necessariamente na água, enquanto a fase adulta é aérea.
-\begin{itemize}
-    \item \textbf{Influência da Chuva:} A precipitação é fundamental para a criação e manutenção de criadouros larvários (pneus, vasos, caixas d'água destampadas), aumentando a densidade vetorial.
-    \item \textbf{Influência da Temperatura:} Temperaturas mais elevadas aceleram o metabolismo do mosquito, encurtando o tempo de desenvolvimento larvário e o período de incubação extrínseco do vírus dentro do vetor, o que aumenta a frequência de repasto sanguíneo e a taxa de transmissão.
-\end{itemize}
+O ciclo de vida do vetor compreende quatro estágios distintos: ovo, larva, pupa e adulto. A duração de cada fase é altamente dependente da temperatura ambiente, sendo que em condições ótimas (entre $25~^\circ\mathrm{C}$  e $30~^\circ\mathrm{C}$), o ciclo completo pode durar de 7 a 10 dias. Temperaturas mais baixas prolongam o desenvolvimento, enquanto temperaturas muito altas (acima de $35~^\circ\mathrm{C}$) podem ser letais para as formas imaturas. O período de incubação extrínseco, definido como o tempo necessário para que o vírus se torne transmissível no mosquito após a ingestão de sangue infectado, também é temperatura-dependente, variando de 8 a 12 dias em temperaturas entre $25~^\circ\mathrm{C}$ e $28~^\circ\mathrm{C}$. Esta dependência térmica do ciclo biológico do vetor estabelece uma relação direta entre variações climáticas e a dinâmica de transmissão da dengue.
 
-\subsection{Impacto Social e Econômico}
+O Brasil apresenta grande heterogeneidade epidemiológica em relação à dengue, com variações significativas nos padrões de transmissão entre as diferentes regiões geográficas. A Região Norte caracteriza-se por transmissão endêmica com picos durante a estação chuvosa, enquanto o Nordeste apresenta alta incidência com surtos epidêmicos recorrentes. A Região Centro-Oeste demonstra padrão sazonal bem definido, e o Sudeste concentra os maiores números absolutos de casos, com transmissão intensa em áreas metropolitanas. A Região Sul, por sua vez, apresenta transmissão mais recente e esporádica, com expansão gradual para áreas anteriormente não endêmicas. Essa heterogeneidade espacial e temporal justifica a necessidade de modelos preditivos que considerem características regionais específicas e variáveis climáticas locais.
 
-O impacto da dengue transcende a esfera clínica individual, gerando um fardo pesado para a sociedade e para a economia. Epidemias de grande magnitude, como a observada no Distrito Federal em 2024, provocam:
-\begin{itemize}
-    \item \textbf{Sobrecarga do Sistema de Saúde:} A procura massiva por atendimento ambulatorial e internação esgota rapidamente os recursos hospitalares, leitos e insumos, prejudicando o atendimento a outras patologias.
-    \item \textbf{Absenteísmo e Perda de Produtividade:} A doença afeta predominantemente a população economicamente ativa, gerando dias perdidos de trabalho e estudo, com impacto direto no PIB local.
-    \item \textbf{Custos Diretos e Indiretos:} Os custos envolvem desde o tratamento dos pacientes e campanhas de controle vetorial até os custos previdenciários e a perda de qualidade de vida da população.
-\end{itemize}
+\subsection{Relação entre Variáveis Climáticas e Incidência de Dengue}
 
-\section{Estado da Arte em Previsão Epidemiológica}
+A literatura científica tem demonstrado de forma consistente a associação entre variáveis climáticas e a incidência de dengue, estabelecendo que temperatura, precipitação e umidade relativa do ar são preditores significativos da transmissão da doença \cite{analysis_climate_factors_dengue,the_occurrence_dengue_weather_brazil}. Estudos realizados no Brasil têm contribuído substancialmente para esta compreensão, analisando como mudanças climáticas afetam os padrões de ocorrência da dengue em diferentes regiões do país \cite{the_occurrence_dengue_weather_brazil,health_impact_dengue_precipitation_sp}. A temperatura é reconhecida como uma das variáveis mais importantes para a dinâmica da dengue, afetando múltiplos aspectos da transmissão: acelera o ciclo de vida do mosquito, reduz o período de incubação extrínseco do vírus, aumenta a taxa de picadas em temperaturas moderadas a altas, e acelera a replicação viral em temperaturas ótimas entre $25~^\circ\mathrm{C}$ e $30~^\circ\mathrm{C}$. Pesquisas demonstram que essa relação não é linear, com a transmissão atingindo pico em temperaturas próximas a $24~^\circ\mathrm{C}$ e apresentando redução em temperaturas extremas, tanto muito altas (acima de $32~^\circ\mathrm{C}$) quanto muito baixas (abaixo de $18~^\circ\mathrm{C}$).
 
-A capacidade de antecipar surtos de doenças infecciosas tem sido uma prioridade de pesquisa global. A evolução das técnicas de previsão pode ser dividida em abordagens clássicas e abordagens modernas baseadas em dados (\textit{Data-Driven}).
+A precipitação cria ambientes propícios para a reprodução do mosquito ao gerar depósitos de água parada, porém sua relação com a dengue é complexa e frequentemente não-linear \cite{health_impact_dengue_precipitation_sp}. Estudos brasileiros mostram que o efeito da precipitação varia regionalmente, sendo que em algumas áreas, períodos de chuva intensa são seguidos por picos de dengue 4 a 8 semanas depois, correspondendo ao tempo necessário para o desenvolvimento completo do mosquito e a amplificação viral na população de vetores \cite{analysis_climate_factors_dengue,the_occurrence_dengue_weather_brazil}. De maneira oposta, chuvas excessivas podem ter efeito negativo ao eliminar criadouros por enxurradas, fenômeno observado em estudos que relatam correlações negativas entre precipitação extrema e incidência de dengue \cite{health_impact_dengue_precipitation_sp}. A umidade relativa do ar também desempenha papel fundamental, afetando diretamente a sobrevivência e atividade do \textit{Aedes aegypti}. Mosquitos adultos necessitam de umidade adequada para sobreviver, sendo que ambientes muito secos reduzem drasticamente sua longevidade. Umidade elevada, acima de 60\%, favorece maior sobrevivência dos mosquitos adultos, aumento na frequência de alimentação sanguínea, maior dispersão espacial do vetor e manutenção de criadouros por períodos prolongados.
 
-\subsection{Modelagem Estatística Clássica (SARIMA)}
-O modelo SARIMA (\textit{Seasonal AutoRegressive Integrated Moving Average}) é uma extensão do modelo ARIMA que suporta explicitamente a sazonalidade univariada. Ele é amplamente utilizado como \textit{baseline} em estudos epidemiológicos devido à sua robustez teórica e capacidade de modelar tendências lineares e ciclos sazonais.
-No entanto, sua principal limitação é a dificuldade em incorporar múltiplas variáveis exógenas (covariáveis climáticas) de maneira não-linear. O SARIMA assume que as relações passadas se repetem linearmente no futuro, o que pode ser insuficiente para prever surtos explosivos causados por anomalias climáticas complexas.
+Um aspecto crucial na modelagem da relação clima-dengue é a existência de defasagens temporais (lags) entre as variações climáticas e seus efeitos na incidência da doença. Os efeitos das variáveis climáticas sobre a incidência de dengue não são imediatos, refletindo uma cadeia de eventos biológicos e epidemiológicos que incluem o tempo de desenvolvimento do mosquito (7-10 dias), o período de incubação extrínseco do vírus no vetor (8-12 dias), o período de incubação intrínseco no humano (4-7 dias), e o tempo decorrido até a notificação no sistema de vigilância epidemiológica (variável conforme a região e estrutura do sistema de saúde). Estudos identificam lags ótimos variando entre 2 e 12 semanas, dependendo da região geográfica e da variável climática considerada \cite{analysis_climate_factors_dengue,health_impact_dengue_precipitation_sp}, sendo esta identificação de defasagens temporais ótimas um dos objetivos específicos deste trabalho, visando maximizar a capacidade preditiva dos modelos desenvolvidos.
 
-\subsection{Machine Learning e Algoritmos de Boosting (XGBoost)}
-O \textit{Extreme Gradient Boosting} (XGBoost) representa o estado da arte em algoritmos baseados em árvores de decisão. Diferente dos modelos lineares, o XGBoost constrói um conjunto (\textit{ensemble}) de modelos fracos (árvores de decisão) de forma sequencial, onde cada novo modelo tenta corrigir os erros dos anteriores.
-\textbf{Vantagens para o problema:}
-\begin{itemize}
-    \item Capacidade de capturar interações não-lineares complexas entre variáveis (ex: a chuva só aumenta a dengue se a temperatura estiver acima de um certo limiar).
-    \item Robustez a dados faltantes (\textit{missing values}) e \textit{outliers}.
-    \item Importância de Atributos (\textit{Feature Importance}): Permite identificar quais variáveis climáticas são mais relevantes para a previsão.
-\end{itemize}
+A Figura \ref{fig:dengue_clima_goiania} exemplifica essa complexa interação entre variáveis climáticas e incidência de dengue, apresentando dados da cidade de Goiânia que ilustram como picos de casos frequentemente coincidem com padrões sazonais específicos de temperatura e precipitação \cite{basedosdados2024dengue}, evidenciando a importância de considerar múltiplas variáveis climáticas simultaneamente em modelos preditivos.
 
-\subsection{Deep Learning e Redes Neurais Recorrentes (LSTM)}
-As redes LSTM (\textit{Long Short-Term Memory}) são uma arquitetura especial de Redes Neurais Recorrentes (RNN) projetadas para superar o problema de "esquecimento" de dependências longas. Em séries temporais epidemiológicas, eventos ocorridos há vários meses (ex: um verão muito chuvoso) podem influenciar o tamanho da população de mosquitos meses depois. As células de memória da LSTM conseguem reter essa informação relevante por longos períodos, tornando-as ideais para modelar os efeitos defasados (\textit{lags}) do clima sobre a doença.
+\begin{figure}[htb]
+    \caption{Relação entre variáveis climáticas e casos de dengue em Goiânia.}
+    \centering
+    \includegraphics[width=0.6\textwidth]{figuras/Dengue e Clima Goiania.png}
+    \fonte{\cite{basedosdados2024dengue}}
+    \label{fig:dengue_clima_goiania}
+\end{figure}
 
-\section{Caracterização das Bases de Dados Reais}
+\section{Abordagens de Modelagem para Previsão de Dengue}
 
-Para garantir a validade ecológica e a aplicabilidade prática deste estudo, foram utilizados exclusivamente dados reais e oficiais referentes ao Distrito Federal.
+A modelagem preditiva aplicada a doenças infecciosas tem evoluído significativamente nas últimas décadas, incorporando técnicas cada vez mais sofisticadas de análise de séries temporais, aprendizado de máquina e deep learning. No contexto da dengue, diferentes abordagens têm sido propostas e avaliadas, cada uma com suas vantagens e limitações específicas. Os modelos estatísticos clássicos, como ARIMA (\textit{Autoregressive Integrated Moving Average}) e sua extensão sazonal SARIMA (\textit{Seasonal ARIMA}), são amplamente utilizados para previsão de séries temporais epidemiológicas por sua capacidade de capturar autocorrelação temporal, tendências e padrões sazonais nos dados. Um modelo SARIMA é especificado por sete parâmetros $(p, d, q) \times (P, D, Q)_s$, onde $p$ representa a ordem autoregressiva, $d$ o grau de diferenciação, $q$ a ordem de média móvel, $P$, $D$, $Q$ os componentes sazonais correspondentes, e $s$ o período sazonal (por exemplo, 52 para dados semanais). O modelo SARIMAX estende o SARIMA ao incorporar variáveis exógenas, como dados climáticos, permitindo quantificar explicitamente o efeito de covariáveis externas na série temporal de casos de dengue. Adicionalmente, o Prophet, desenvolvido pelo Facebook (Meta), representa uma abordagem moderna de modelagem aditiva que decompõe a série em tendência, sazonalidade e efeitos de feriados, sendo particularmente robusto a dados faltantes e outliers, características comuns em dados epidemiológicos.
 
-\subsection{Dados Epidemiológicos (SINAN/InfoDengue)}
-Os dados de notificação de dengue foram obtidos através da API do projeto InfoDengue, que cura e padroniza os dados do Sistema de Informação de Agravos de Notificação (SINAN) do Ministério da Saúde.
-\begin{itemize}
-    \item \textbf{Abrangência Temporal:} Semanas epidemiológicas de 2022 a 2024 (156 semanas contínuas).
-    \item \textbf{Abrangência Espacial:} Município de Brasília (Geocódigo IBGE: 5300108).
-    \item \textbf{Natureza do Dado:} Casos prováveis (soma de casos confirmados e suspeitos), refletindo a carga real sobre o sistema de saúde.
-\end{itemize}
+A Figura \ref{fig:schematic_sarima} apresenta a estrutura esquemática do modelo SARIMA, ilustrando seus componentes autoregressivos (AR), de diferenciação (I) e de média móvel (MA), tanto para a parte não-sazonal quanto para a parte sazonal, evidenciando como o modelo captura padrões temporais complexos através da combinação desses elementos.
 
-\subsection{Dados Meteorológicos (INMET)}
-As variáveis climáticas foram extraídas do Banco de Dados Meteorológicos para Ensino e Pesquisa (BDMEP) do Instituto Nacional de Meteorologia (INMET).
-\begin{itemize}
-    \item \textbf{Fonte:} Estação Meteorológica Automática de Brasília (A001).
-    \item \textbf{Variáveis Processadas:}
-    \begin{enumerate}
-        \item \textbf{Precipitação (Chuva):} Acumulado semanal (mm). Variável crítica para formação de criadouros.
-        \item \textbf{Temperatura Média, Mínima e Máxima:} Médias semanais (°C). Variável crítica para a velocidade do ciclo viral.
-        \item \textbf{Umidade Relativa do Ar:} Média semanal (%). Variável crítica para a sobrevivência do mosquito adulto (em ambientes secos, o mosquito desidrata e morre mais rápido).
-        \item \textbf{Pressão Atmosférica:} Média semanal.
-    \end{enumerate}
-\end{itemize}
+\begin{figure}[htb]
+    \caption{Estrutura esquemática do modelo SARIMA.}
+    \centering
+    \includegraphics[width=0.8\textwidth]{figuras/Schematic-SARIMA.png}
+    \fonte{\cite{gong2023sarima}}
+    \label{fig:schematic_sarima}
+\end{figure}
+
+\subsection{Modelos de Aprendizado de Máquina}
+
+Os métodos de aprendizado de máquina têm demonstrado capacidade superior em capturar relações complexas e não-lineares presentes em dados epidemiológicos e climáticos \cite{roster2022machine,mussumeci2020large}. Random Forest, um método de ensemble que constrói múltiplas árvores de decisão e agrega suas predições, tem se destacado em aplicações de previsão de dengue devido à sua capacidade de capturar relações não-lineares, robustez a outliers, fornecimento de medidas de importância de features e necessidade reduzida de tuning de hiperparâmetros \cite{roster2022machine}. Este método tem demonstrado desempenho particularmente bom em séries temporais de dengue, com estudos reportando erros médios absolutos consistentemente baixos em múltiplas cidades brasileiras \cite{roster2022machine,mussumeci2020large}. Roster et al. (2022) aplicaram Random Forest para previsão de dengue em múltiplas cidades brasileiras, demonstrando que o modelo captura efetivamente padrões sazonais e a influência de variáveis meteorológicas, com performance superior a modelos estatísticos tradicionais \cite{roster2022machine}.
+
+
+A Figura \ref{fig:schematic_random_forest} ilustra o funcionamento do algoritmo Random Forest, mostrando como múltiplas árvores de decisão são construídas a partir de amostras bootstrap dos dados originais e subconjuntos aleatórios de features, com a predição final obtida pela agregação (média ou votação) das predições individuais de cada árvore, reduzindo a variância e melhorando a generalização.
+
+\begin{figure}[htb]
+    \caption{Estrutura esquemática do modelo Random Forest.}
+    \centering
+    \includegraphics[width=0.6\textwidth]{figuras/Schematic-Random Forest.png}
+    \fonte{\cite{researchgate_randomforest}}
+    \label{fig:schematic_random_forest}
+\end{figure}
+
+O \textit{eXtreme Gradient Boosting} (XGBoost) representa outra abordagem de ensemble amplamente utilizada, caracterizada por construir árvores de forma sequencial onde cada nova árvore corrige os erros das anteriores \cite{mussumeci2020large}. Esta técnica oferece alta performance preditiva, regularização integrada (L1 e L2), tratamento eficiente de dados faltantes e capacidades de paralelização para treinamento rápido. Estudos recentes mostram que XGBoost apresenta performance comparável ou superior a Random Forest em tarefas de previsão de dengue, especialmente quando variáveis climáticas são incorporadas ao modelo \cite{roster2022machine,ferdousi2021windowed}. Mussumeci e Coelho (2020) desenvolveram framework de machine learning em larga escala para previsão de dengue no Brasil, demonstrando que XGBoost e outros algoritmos de gradient boosting alcançam alta acurácia quando treinados com dados epidemiológicos e climáticos de múltiplas fontes \cite{mussumeci2020large}. Outras variantes de gradient boosting, como GradientBoostingRegressor (scikit-learn) e LightGBM, oferecem alternativas com diferentes compromissos entre velocidade de treinamento e acurácia, ampliando o repertório de ferramentas disponíveis para modelagem epidemiológica \cite{roster2022machine}.
+
+A Figura \ref{fig:schematic_xgboost} apresenta a estrutura do algoritmo XGBoost, demonstrando o processo de construção sequencial de árvores onde cada nova árvore é treinada para corrigir os resíduos do modelo anterior, com a aplicação de regularização (L1 e L2) para controlar a complexidade e prevenir overfitting, resultando em um modelo robusto e de alta performance.
+
+\begin{figure}[htb]
+    \caption{Estrutura esquemática do modelo XGBoost.}
+    \centering
+    \includegraphics[width=0.6\textwidth]{figuras/Schematic-XGBoost.png}
+    \fonte{\cite{researchgate_xgboost}}
+    \label{fig:schematic_xgboost}
+\end{figure}
+
+\newpage
+\subsection{Análise Comparativa dos Modelos}
+
+Baseado em características gerais e estudos comparativos típicos de modelos de previsão de séries temporais \cite{aiyegbeni2024comparative}.
+
+\begin{table}[!ht]
+    \centering
+    \small
+    \caption{Comparativo Detalhado das Tecnologias: SARIMA, Random Forest, XGBoost e LSTM}
+    \label{tab:comparativo_detalhado_tecnologias}
+    \setlength{\tabcolsep}{3pt} % Reduz espaçamento entre colunas
+    \begin{tabular}{|p{0.12\textwidth}|p{0.26\textwidth}|p{0.29\textwidth}|p{0.29\textwidth}|}
+    \hline
+    \textbf{Modelo} & \textbf{Descrição} & \textbf{Vantagem} & \textbf{Desvantagem} \\ \hline
+    \textbf{SARIMA / SARIMAX} & Especificação $(p,d,q)\times(P,D,Q)_s$ com componentes sazonais e, no SARIMAX, termos exógenos $X_t$. & \begin{itemize}[leftmargin=*,noitemsep,topsep=0pt] \item Captura autocorrelação e sazonalidade explícitas. \item Permite variáveis exógenas (clima). \item Alta interpretabilidade. \end{itemize} & \begin{itemize}[leftmargin=*,noitemsep,topsep=0pt] \item Relações lineares; pode subestimar não-linearidades. \item Sensível a estacionariedade; tuning custoso. \end{itemize} \\ \hline
+    \textbf{Random Forest} & Múltiplas árvores de decisão (bagging); predição é a média das árvores. & \begin{itemize}[leftmargin=*,noitemsep,topsep=0pt] \item Captura não-linearidades e interações. \item Robusto a outliers/ruído; pouco tuning. \item Feature importance auxilia interpretação. \end{itemize} & \begin{itemize}[leftmargin=*,noitemsep,topsep=0pt] \item Pode falhar em extrapolação. \item Menor capacidade para dependências temporais longas sem lags. \end{itemize} \\ \hline
+    \textbf{XGBoost} & Boosting de árvores (sequencial) otimizando função de perda com regularização. & \begin{itemize}[leftmargin=*,noitemsep,topsep=0pt] \item Alto desempenho; captura não-linearidades. \item Regularização (L1/L2) e lida bem com missing. \item Treino rápido. \end{itemize} & \begin{itemize}[leftmargin=*,noitemsep,topsep=0pt] \item Tuning mais sensível que RF. \item Exige engenharia de features (lags). \end{itemize} \\ \hline
+    \textbf{LSTM} & Redes Neurais Recorrentes com gates para memória de longo prazo. & \begin{itemize}[leftmargin=*,noitemsep,topsep=0pt] \item Modela dependências longas e complexas. \item Aprende padrões temporais automaticamente. \end{itemize} & \begin{itemize}[leftmargin=*,noitemsep,topsep=0pt] \item Exige muitos dados e poder computacional. \item Caixa-preta; risco de overfitting. \end{itemize} \\ \hline
+    \end{tabular}
+\end{table}
+
+\section{Estudos Sobre Clima e Dengue no Brasil}
+
+Diversos estudos têm investigado a relação entre fatores climáticos e a incidência de dengue no contexto brasileiro, contribuindo para a compreensão dos mecanismos de transmissão e desenvolvimento de modelos preditivos \cite{the_occurrence_dengue_weather_brazil,analysis_climate_factors_dengue,health_impact_dengue_precipitation_sp}. A análise de fatores climáticos e sua influência na incidência de dengue tem revelado padrões consistentes entre temperatura, precipitação e casos notificados, evidenciando a importância de incorporar variáveis meteorológicas em sistemas de vigilância epidemiológica \cite{analysis_climate_factors_dengue}. Pesquisas focadas na avaliação do impacto à saúde relacionando incidência de dengue e precipitação em regiões específicas, como o estado de São Paulo, têm demonstrado correlações significativas entre padrões de chuva e picos epidêmicos, com defasagens temporais variando conforme características geográficas e urbanização \cite{health_impact_dengue_precipitation_sp}. Estudos sobre a ocorrência de dengue e mudanças climáticas no Brasil têm estabelecido que variações sazonais e anomalias climáticas desempenham papel fundamental na dinâmica de transmissão da doença, sendo que regiões com maior variabilidade climática tendem a apresentar padrões epidêmicos mais complexos e desafiadores para previsão \cite{the_occurrence_dengue_weather_brazil}.
+
+A literatura científica consolidada demonstra que a integração de dados climáticos em modelos preditivos melhora significativamente a capacidade de antecipação de surtos, permitindo que sistemas de saúde pública implementem medidas preventivas e de controle vetorial de forma mais efetiva e direcionada \cite{analysis_climate_factors_dengue,the_occurrence_dengue_weather_brazil}. A heterogeneidade regional observada nos padrões de associação entre clima e dengue justifica a necessidade de desenvolver modelos que considerem características locais e regionais específicas, ao invés de aplicar abordagens universais que podem não capturar adequadamente as particularidades de cada contexto epidemiológico \cite{health_impact_dengue_precipitation_sp,the_occurrence_dengue_weather_brazil}. Apesar dos avanços significativos na compreensão da relação clima-dengue, a literatura identifica lacunas importantes que este trabalho busca endereçar: a necessidade de comparação sistemática entre modelos estatísticos, de aprendizado de máquina e deep learning utilizando os mesmos dados; a exploração mais detalhada da variação regional de lags climáticos ótimos; a integração de múltiplas fontes de dados climáticos (estações meteorológicas, satélites e reanalysis); e o desenvolvimento de sistemas de alerta com limiares calibrados baseados em otimização de métricas de classificação, ao invés de definições arbitrárias.
+
+% ============================================================================
+% SEÇÃO DATASETS UTILIZADOS - INSERIR PARTES GRADUALMENTE
+% Ver: docs/GUIA_INSERCAO_DATASETS.md
+% Partes: SECAO_DATASETS_PARTE1.tex até SECAO_DATASETS_PARTE6.tex
+% 
+% INSTRUÇÕES:
+% 1. Copie o conteúdo de SECAO_DATASETS_PARTE1.tex e cole aqui
+% 2. Compile e verifique
+% 3. Repita para PARTE2, PARTE3, PARTE4, PARTE5 e PARTE6
+% ============================================================================
+
+
+\section{Técnicas Computacionais e Ferramentas de Desenvolvimento}
+
+O desenvolvimento deste trabalho requer o emprego de técnicas computacionais especializadas e ferramentas adequadas para processamento de dados geoespaciais, modelagem de séries temporais e validação de modelos preditivos. O processamento de dados geoespaciais é realizado através de bibliotecas como GeoPandas, que estende o pandas para suportar operações espaciais incluindo junções espaciais, cálculo de áreas e distâncias, transformações de sistemas de coordenadas e visualização de mapas. Para processar dados climáticos em formato raster provenientes de fontes como CHIRPS, ERA5 e NASA POWER, utilizam-se ferramentas como Rasterio para leitura e escrita de arquivos GeoTIFF, Xarray para manipulação de dados multidimensionais em formato NetCDF, e Rasterstats para cálculo de estatísticas zonais que permitem agregar informações climáticas por município. O Google Earth Engine oferece acesso programático a petabytes de dados de satélite pré-processados, facilitando a obtenção de séries temporais climáticas de alta qualidade espacial e temporal.
+
+\section{Considerações Finais}
+
+Este capítulo apresentou a fundamentação teórica necessária para o desenvolvimento deste trabalho, abordando aspectos epidemiológicos da dengue no Brasil, a relação cientificamente estabelecida entre variáveis climáticas e transmissão da doença, as principais abordagens de modelagem preditiva, estudos correlatos realizados no contexto brasileiro, e as técnicas computacionais e ferramentas que serão empregadas. A literatura revisada demonstra consistentemente que variáveis climáticas, particularmente temperatura, precipitação e umidade, são preditores significativos da incidência de dengue, com relações complexas e não-lineares que variam regionalmente. A evolução das técnicas de modelagem, desde métodos estatísticos clássicos como SARIMA até abordagens modernas de deep learning como LTSM, oferece um repertório rico de ferramentas para enfrentar o desafio da previsão de surtos.
+
+Os estudos brasileiros revisados evidenciam a importância de considerar características regionais e a heterogeneidade espacial da transmissão, justificando a necessidade de modelos adaptados ao contexto local. As lacunas identificadas na literatura, particularmente quanto à comparação sistemática de diferentes abordagens de modelagem, análise detalhada de lags climáticos regionais, e integração de múltiplas fontes de dados, motivam o desenvolvimento deste trabalho. As técnicas computacionais e ferramentas apresentadas fornecem a base metodológica para implementar um pipeline reproduzível que integre dados epidemiológicos e climáticos, compare diferentes técnicas de modelagem, e gere previsões interpretáveis que possam subsidiar decisões em saúde pública. Os capítulos subsequentes detalharão a metodologia empregada, os resultados obtidos e as contribuições deste trabalho para o campo de previsão de surtos de dengue.
+

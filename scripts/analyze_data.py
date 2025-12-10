@@ -147,7 +147,7 @@ def analyze_correlations():
             row['Conclusão Causalidade'] = f"⚠️ Erro no teste: {str(e)[:50]}"
             
         results.append(row)
-    
+        
     # Criar DataFrame
     res_df = pd.DataFrame(results)
     
