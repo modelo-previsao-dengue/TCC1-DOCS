@@ -16,7 +16,7 @@ Será realizada a coleta e processamento de dados meteorológicos históricos do
 As variáveis meteorológicas coletadas incluem:
 \begin{itemize}
     \item Precipitação acumulada (mm)
-    \item Temperatura do ar: mínima, média e máxima (°C)
+    \item Temperatura do ar: mínima, média e máxima ($~^\circ\mathrm{C}$)
     \item Umidade relativa do ar média (\%)
     \item Pressão atmosférica ao nível da estação (hPa)
     \item Velocidade média do vento (m/s)
@@ -25,7 +25,7 @@ As variáveis meteorológicas coletadas incluem:
 Os dados brutos serão processados para padronização de codificações (Latin-1, UTF-8), normalização de nomes de colunas e conversão de tipos de dados. Em seguida, será realizada agregação temporal dos dados diários para a granularidade semanal, alinhada às semanas epidemiológicas:
 \begin{itemize}
     \item Precipitação: soma acumulada semanal (mm/semana)
-    \item Temperaturas: média aritmética semanal (°C/semana)
+    \item Temperaturas: média aritmética semanal ($~^\circ\mathrm{C}$/semana)
     \item Umidade relativa: média aritmética semanal (\%/semana)
     \item Pressão atmosférica: média aritmética semanal (hPa/semana)
     \item Velocidade do vento: média aritmética semanal (m/s/semana)
@@ -123,13 +123,6 @@ Serão desenvolvidas três famílias de modelos para cada município:
 \begin{itemize}
     \item \textbf{Random Forest}: ensemble de árvores de decisão com ajuste de hiperparâmetros incluindo número de árvores, profundidade máxima, amostragem de atributos e ponderação temporal
     \item \textbf{XGBoost (Extreme Gradient Boosting)}: algoritmo de boosting com otimização de taxa de aprendizado, regularização L1 e L2, número de estimadores e janela de early stopping baseada em validação temporal
-\end{itemize}
-
-\textbf{Modelos de Deep Learning}:
-\begin{itemize}
-    \item \textbf{LSTM (Long Short-Term Memory)}: redes neurais recorrentes com células de memória de longo prazo, configuradas com múltiplas camadas, dropout temporal, normalização de séries e camada densa final
-    \item \textbf{BiLSTM (Bidirectional LSTM)}: extensão do LSTM processando a sequência em ambas as direções (passado e futuro)
-    \item \textbf{CNN-LSTM}: arquitetura híbrida combinando blocos convolucionais unidimensionais para extração de padrões locais com LSTM para capturar dependências de longo prazo
 \end{itemize}
 
 \subsubsection{Seleção Automática de Hiperparâmetros}
@@ -288,14 +281,8 @@ Será utilizada validação cruzada específica de séries temporais (TimeSeries
 
 \begin{itemize}
     \item \textbf{RMSE (Root Mean Squared Error)}: mede a raiz quadrada da média dos erros ao quadrado, penalizando erros grandes
-    \item \textbf{MAE (Mean Absolute Error)}: mede a média dos valores absolutos dos erros, fornecendo interpretação direta em unidades de casos
 \end{itemize}
 
-\subsubsection{Métricas de Erro Relativo}
-
-\begin{itemize}
-    \item \textbf{MAPE (Mean Absolute Percentage Error)}: mede o erro percentual médio, com implementação de salvaguardas para evitar divisão por zero em semanas com casos muito baixos (substituição por valor mínimo de 1 caso)
-\end{itemize}
 
 \subsubsection{Métricas de Classificação}
 
@@ -438,15 +425,6 @@ O resultado da integração das bases será um dataset unificado contendo:
     \item \textbf{Correção de Múltiplas Comparações}: Aplicação de correção de Bonferroni ou FDR (False Discovery Rate) ao testar múltiplas variáveis e múltiplos lags simultaneamente
 \end{itemize}
 
-\subsubsection{Teste de Estacionariedade (ADF)}
-
-\begin{itemize}
-    \item \textbf{Objetivo}: Verificar se série temporal é estacionária (pré-requisito para modelos SARIMA/SARIMAX)
-    \item \textbf{Método}: Teste de Dickey-Fuller Aumentado (Augmented Dickey-Fuller)
-    \item \textbf{Hipótese Nula}: Série é não-estacionária (possui raiz unitária)
-    \item \textbf{Ação}: Se série não-estacionária, aplicar diferenciação (differencing) antes de ajustar modelos
-\end{itemize}
-
 \subsection{Testes de Validação de Dados}
 
 \subsubsection{Testes de Qualidade}
@@ -454,7 +432,7 @@ O resultado da integração das bases será um dataset unificado contendo:
 \textbf{Teste de Outliers}:
 \begin{itemize}
     \item \textbf{Métodos}: Regra de 3 desvios padrão, método IQR (Interquartile Range)
-    \item \textbf{Validação Física}: Verificação se outliers estão dentro de limites fisicamente plausíveis (temperatura: -10°C a 50°C para Brasília; precipitação: não negativa, valores máximos razoáveis; umidade: 0\% a 100\%; pressão: 850 hPa a 950 hPa para altitude de ~1100m)
+    \item \textbf{Validação Física}: Verificação se outliers estão dentro de limites fisicamente plausíveis (temperatura: $-10~^\circ\mathrm{C}$ a $50~^\circ\mathrm{C}$ para Brasília; precipitação: não negativa, valores máximos razoáveis; umidade: 0\% a 100\%; pressão: 850 hPa a 950 hPa para altitude de ~1100m)
     \item \textbf{Ação}: Documentação e investigação manual de outliers extremos antes de qualquer remoção
 \end{itemize}
 
@@ -473,13 +451,6 @@ O resultado da integração das bases será um dataset unificado contendo:
 \end{itemize}
 
 \subsubsection{Testes de Pressupostos Estatísticos}
-
-\textbf{Teste de Normalidade}:
-\begin{itemize}
-    \item \textbf{Métodos}: Teste de Shapiro-Wilk (para amostras pequenas) ou Kolmogorov-Smirnov (para amostras maiores)
-    \item \textbf{Objetivo}: Verificar se dados seguem distribuição normal (relevante para correlação de Pearson)
-    \item \textbf{Interpretação}: Se normalidade rejeitada, preferir correlação de Spearman (não-paramétrica)
-\end{itemize}
 
 \textbf{Teste de Autocorrelação}:
 \begin{itemize}
