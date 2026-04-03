@@ -1,0 +1,19 @@
+# Core Data Science Libraries (Versões fixas para evitar erros binários)
+numpy>=1.24.0,<2.0.0
+pandas>=2.0.0,<3.0.0
+
+# Visualization
+matplotlib>=3.4.0
+seaborn>=0.11.0
+
+# Time Series / Statistical Modeling
+statsmodels>=0.14.0
+
+# Machine Learning (métricas)
+scikit-learn>=1.0.0
+
+# Utilities
+joblib>=1.1.0
+
+# Testes estatísticos e diagnóstico
+scipy>=1.7.0
