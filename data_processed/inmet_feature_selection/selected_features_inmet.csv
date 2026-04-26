@@ -1,0 +1,8 @@
+representative,family,priority_score,cluster_id
+rain_heavy_days_lag2,precipitacao,6.3,3
+rain_heavy_days_lag4,precipitacao,6.3,3
+humidity_mean_lag2,umidade,5.6,3
+temp_mean_lag2,temperatura,5.3,1
+temp_mean_lag4,temperatura,5.3,1
+pressure_lag2,pressao,3.0,3
+wind_speed_lag2,vento,2.6,5
